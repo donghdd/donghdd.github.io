@@ -1,0 +1,19 @@
+---
+layout: compress
+---
+[
+
+  {% comment %} ------------------------------ BEGIN POST ------------------------------ {% endcomment %}
+  {% assign posts = site.posts | where: 'draft', false  | where: 'exclude', false %}
+  {% if posts.size > 0 %}
+    {% for post in posts %}
+      {
+        "title"    : "{{ post.title | escape }}",
+        "url"      : "{{ site.baseurl }}{{ post.url }}",
+        "date"     : "{{ post.date | date: '%F' }}"
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  {% endif %}
+  {% comment %} ------------------------------ END POST ------------------------------ {% endcomment %}
+
+]

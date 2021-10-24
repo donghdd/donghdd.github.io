@@ -1,0 +1,11 @@
+- text: Typing speed
+  alt: Typing speed
+  url: "https://donghd.com/#/typing-speed"
+  blank: true
+  show: false
+
+- text: Anonymous email address
+  alt: Anonymous email address
+  url: "https://donghd.com/#/temporary-email-address"
+  blank: true
+  show: false

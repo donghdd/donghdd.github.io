@@ -1,0 +1,61 @@
+---
+layout: default
+---
+<!-- COVER -->
+{% if page.coverImg %}
+<div class="w3-padding-16"></div>
+<img class="w3-image {% if page.effect %}img-sepia{% endif %}" src="{{ page.coverImg }}" alt="{%if page.header %}{{ page.header }}{% else %}{{ page.title }}{% endif %}" width="100%">
+{% else %}
+<div class="w3-padding-32"></div>
+{% endif %}
+
+<!-- ARTICLE -->
+<article>
+  <h2>{%if page.header %}{{ page.header }}{% else %}{{ page.title }}{% endif %}</h2>
+  <span class="opacity-transition-hover">
+    <span class="author">
+      {% assign author = site.authors | where: 'author_name', page.author_name | first %}
+      {% if author %}
+        <a href="{{ author.url }}" class="hvr-float-shadow">{{ author.author_name }}</a>
+      {% endif %}
+    </span>
+    <time datetime="{{ page.date | date_to_xmlschema }}" class="by-line"> · {{ page.date | date_to_string }} 
+    {% include reading_time.html %} · 
+    {% if page.draft != true %}
+    <span>
+      {% if post %}
+        {% assign categories = post.categories %}
+      {% else %}
+        {% assign categories = page.categories %}
+      {% endif %}
+      {% for category in categories %}
+      <a href="{{site.baseurl}}/pages/categories#{{category|slugize}}" class="hvr-float-shadow">{{category | replace: "_", " "}}</a>
+      {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+    </span>
+    {% endif %}
+    </time>
+  </span>
+	<div class="w3-section">
+		{{ content | toc }}
+  </div>
+</article>
+
+<!-- Các bài viết liên quan -->
+<!-- // TODO -->
+
+<!-- FB -->
+<div class="w3-padding-32 opacity-transition-hover">
+  {% if page.draft != true %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=398245613894329";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-like" data-href="{{ site.url }}{{ page.url }}" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true">Loading...</div>
+    <div class="fb-comments" data-href="{{ site.url }}{{ page.url }}" data-numposts="5" width="100%"></div>
+  {% endif %}
+</div>

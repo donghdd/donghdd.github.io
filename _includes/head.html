@@ -1,0 +1,28 @@
+<head>
+	<title>{%if page.title %}{{ page.title }}{% elsif page.author_name %}{{ page.author_name }}{% else %}{{ site.title }}{% endif %}</title>
+	<!-- Meta -->
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+  	<meta name="description" content="{%if page.description %}{{ page.description }}{% elsif page.short_description %}{{ page.short_description }}{% else %}{{ site.description }}{% endif %}">
+	{%if page.author_name %}<meta name="author" content="{{ page.author_name }}">{% endif %}
+	
+	{%if page.robots %}<META NAME="ROBOTS" CONTENT="{{ page.robots }}">{% endif %}
+	<!-- <META NAME="ROBOTS" CONTENT="noindex, nofollow, noarchive, nosnippet, noimageindex"> -->
+	
+	<!-- canonical -->
+	{% include canonical.html %}
+	<!-- manifest -->
+	<link rel="manifest" href="/assets/manifest.json">
+	{%if page.amp %}
+	<link rel="amphtml" href="{{ page.id | prepend: '/amp' | prepend: site.baseurl | prepend: site.url }}">
+	{% endif %}
+	<!-- CSS & fonts -->
+	<meta name="theme-color" content="#317EFB"/>
+	<link href="/assets/css/main.css" rel="stylesheet" media="all">
+	<link rel="stylesheet" href="/assets/css/delay.css" media="none" onload="if(media!='all')media='all'">
+	<noscript><link rel="stylesheet" href="/assets/css/delay.css"></noscript>
+	<!-- RSS -->
+	<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" />
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png">
+</head>

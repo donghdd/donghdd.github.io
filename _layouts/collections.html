@@ -1,0 +1,112 @@
+---
+layout: default
+---
+<!-- COVER -->
+{% if page.coverImg %}
+<div class="w3-padding-16"></div>
+<img class="w3-image {% if page.effect %}img-sepia{% endif %}" src="{{ page.coverImg }}" alt="{%if page.header %}{{ page.header }}{% else %}{{ page.title }}{% endif %}" width="100%">
+{% else %}
+<div class="w3-padding-32"></div>
+{% endif %}
+
+<!-- ARTICLE -->
+<article id="articleBody">
+  <h2>{%if page.header %}{{ page.header }}{% else %}{{ page.title }}{% endif %}</h2>
+  <span class="opacity-transition-hover">
+    <span class="author">
+      {% assign author = site.authors | where: 'author_name', page.author_name | first %}
+      {% if author %}
+        <a href="{{ author.url }}" class="hvr-float-shadow">{{ author.author_name }}</a>
+      {% endif %}
+    </span>
+    <time datetime="{{ page.date | date_to_xmlschema }}" class="by-line">{{ page.date | date_to_string }}
+    {% if page.draft != true %}
+      <span>
+        {% if post %}
+          {% assign categories = post.categories %}
+        {% else %}
+          {% assign categories = page.categories %}
+        {% endif %}
+        {% for category in categories %}
+        <a href="{{site.baseurl}}/collections/{{page.collection}}#{{category|slugize}}" class="hvr-float-shadow">{{category | replace: "_", " "}}</a>
+        {% unless forloop.last %}&nbsp;{% endunless %}
+        {% endfor %}
+      </span>
+    {% endif %}
+    </time>
+    {% include reading_time.html %}
+  </span>
+
+	<div class="w3-section">
+		{{ content | toc }}
+  </div>
+
+</article>
+
+<!-- Xem thêm các bài viết khác cùng collection -->
+<div class="w3-padding-16"></div>
+<div class="opacity-transition-hover">
+  <h5>Xem thêm các bài viết khác cùng chủ đề</h5>
+  <!-- serials -->
+  {% assign serials = site.collections | where: 'isSerial', true | where: 'show', true | where: 'label', page.collection %}
+  {% for serial in serials %}
+  <ul class="w3-ul">
+  {% for doc in serial.docs %}
+    {% if doc.draft != true %}
+      {% if doc.category == page.category %}
+      <!-- {{ doc.date | date_to_string }} -->
+        {% if doc != page and doc.draft != true %}
+        <a href="{{ site.baseurl }}{{doc.url}}" class="hvr-forward"><li><span></span>{{doc.title}} · {{ doc.content | reading_time }} {% if doc.is_new %}<span class="w3-tag w3-blue">New!</span>{% endif %}{% if doc.is_hot %}<span class="w3-tag w3-red">HOT!</span>{% endif %}{% if doc.is_update %}<span class="w3-tag w3-green">Update!</span>{% endif %}</li></a>
+        {% else %}
+        <li><span></span>→ {{doc.title}} · {{ doc.content | reading_time }} {% if doc.is_new %}<span class="w3-tag w3-blue">New!</span>{% endif %}{% if doc.is_hot %}<span class="w3-tag w3-red">HOT!</span>{% endif %}{% if doc.is_update %}<span class="w3-tag w3-green">Update!</span>{% endif %}</li>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+  {% endfor %}
+
+  <div class="w3-section konamiHide">
+    <!-- search -->
+    <div id="search-container">
+      <label>
+        <span class="dh-unnecessary">Tìm kiếm</span>
+        <input type="text" id="search-input" placeholder="Hoặc tìm bài viết khác...">
+      </label>
+      <div id="results-container" class="w3-card"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/assets/js/search-custom.min.js" type="text/javascript"></script>
+<script>
+	(function() {
+    JSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+			json: '/search/search-collections.json'
+    })
+	})();
+</script>
+
+<!-- [Q]uiz with selected text -->
+{% include quiz-with-selected-text.html %}
+
+{% comment %}
+<!-- FB -->
+<div class="w3-padding-32 opacity-transition-hover">
+  {% if page.draft != true %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=398245613894329";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-like" data-href="{{ site.url }}{{ page.url }}" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true">Loading...</div>
+    <div class="fb-comments" data-href="{{ site.url }}{{ page.url }}" data-numposts="5" width="100%"></div>
+  {% endif %}
+</div>
+{% endcomment %}

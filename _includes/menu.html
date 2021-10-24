@@ -1,0 +1,17 @@
+{% for page in site.pages %}
+	{% if page.layout == "page" %}
+		{% if page.titleLink and page.show %}
+			<h1 class="w3-bar-item w3-button w3-text-grey w3-hover-black">
+				<a href="{% if site.baseurl == "/" %}{{ page.url }}{% else %}{{ page.url | prepend: site.baseurl }}{% endif %}" title="{{ page.titleLink }}">{{ page.titleLink }}</a>
+			</h1>
+		{% endif %}
+	{% endif %}
+{% endfor %}
+
+{% for menu in site.data.menu %}
+	{% if menu.text and menu.show %}
+		<h1 class="w3-bar-item w3-button w3-text-grey w3-hover-black">
+			<a href="{{ menu.url }}" title="{{ menu.alt }}" {% if menu.blank %} target="_blank" {% endif %}>{{ menu.text }}</a>
+		</h1>
+	{% endif %}
+{% endfor %}

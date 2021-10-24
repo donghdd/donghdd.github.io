@@ -1,0 +1,38 @@
+---
+layout: compress
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{ site.url }}</loc>
+        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    </url>
+
+    {% assign posts = site.posts | where: 'draft', false | where: 'exclude', false %}
+    {% for post in posts %}
+    <url>
+        <loc>{{ site.url }}{{ post.url }}</loc>
+        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    </url>
+    {% endfor %}
+
+    
+    {% assign serials = site.collections | where: 'isSerial', true | where: 'show', true %}
+    {% if serials.size > 0 %}
+        {% for serial in serials %}
+
+        {% assign docs = serial.docs | where: 'draft', false %}
+        {% if docs.size > 0 %}
+
+            {% for doc in docs %}
+            <url>
+                <loc>{{ site.url }}{{ doc.url }}</loc>
+                <lastmod>{{ doc.date | date_to_xmlschema }}</lastmod>
+            </url>
+            {% endfor %}
+
+        {% endif %}
+
+        {% endfor %}
+    {% endif %}
+</urlset>

@@ -1,0 +1,144 @@
+# Site settings
+title: "Trang web cá nhân của Đông Hồ"
+description: Trang web cá nhân của Đông Hồ
+url: "https://donghd.com"
+author:
+  name: "Đông Hồ"
+  url: "https://donghd.com"
+
+# Build settings
+encoding: utf-8
+source: .
+destination: ./_site
+baseurl: # /blog => ko dùng thì để trống
+permalink: /articles/:title
+markdown: kramdown
+ampdir: amp
+exclude: ["README.md", "NOTE", "CNAME", "build-and-deploy.sh", "templates", ".gitignore", "_config.yml", "temp", "docs", "Gemfile", "Gemfile.lock"]
+
+# Collections
+collections:
+  pages:
+    output: true
+  authors:
+    output: true
+  # BEGIN serials
+
+  # japanese:
+  #   output: true
+  #   # "isSerial" và "show" để filter
+  #   isSerial: true
+  #   show: true
+  #   # phải có "/collections/" vì đã được hardcore URL trong "categories" và đường dẫn đến "search.json" trong INDEX
+  #   permalink: /collections/japanese/:title
+  #   # thumbnail: "/path/to/image.jpg"
+  #   title: "Learning Japanese"
+  #   description: "Tổng hợp các ghi chép trên con đường chinh phục tiếng Nhật :)"
+
+  # END serials
+
+# Plugins
+plugins:
+  - jekyll-paginate-v2
+  # - jekyll-pwa-plugin
+
+# TOC Configuration
+toc:
+  min_level: 1
+  max_level: 6
+  no_toc_section_class: no_toc_section
+  list_class: 'toc-nav dh-black-8 w3-animate-opacity dh-padding-right-1em' # <ul class="section-nav"> ROOT
+  sublist_class: ''
+  item_class: toc-entry # <li class="toc-entry toc-h1">
+  item_prefix: toc- # toc-h1, toc-h2, toc-h3...
+
+# Compress HTML
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [local]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+
+# Pagination => https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md
+# paginate: 15
+# paginate_path: /page:num/
+############################################################
+# Site configuration for the Jekyll 3 Pagination Gem
+# The values here represent the defaults if nothing is set
+pagination:
+  
+  # Site-wide kill switch, disabled here it doesn't run at all 
+  enabled: true
+
+  # Set to 'true' to enable pagination debugging. This can be enabled in the site config or only for individual pagination pages
+  debug: false
+
+  # The default document collection to paginate if nothing is specified ('posts' is default)
+  collection: 'posts'
+
+  # How many objects per paginated page, used to be `paginate` (default: 0, means all)
+  per_page: 10
+
+  # The permalink structure for the paginated pages (this can be any level deep)
+  permalink: '/page/:num.html' # Pages are index.html inside this folder (default)
+  #permalink: '/page/:num.html' # Pages are simple html files 
+  #permalink: '/page/:num' # Pages are html files, linked jekyll extensionless permalink style.
+
+  # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number, :max for total number of pages)
+  title: ':title (page :num of :max)'
+
+  # Limit how many pagenated pages to create (default: 0, means all)
+  limit: 0
+  
+  # Optional, defines the field that the posts should be sorted on (omit to default to 'date')
+  sort_field: 'date'
+
+  # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
+  sort_reverse: true
+
+  # Optional, the default category to use, omit or just leave this as 'posts' to get a backwards-compatible behavior (all posts)
+  category: 'posts'
+
+  # Optional, the default tag to use, omit to disable
+  tag: ''
+
+  # Optional, the default locale to use, omit to disable (depends on a field 'locale' to be specified in the posts, 
+  # in reality this can be any value, suggested are the Microsoft locale-codes (e.g. en_US, en_GB) or simply the ISO-639 language code )
+  locale: '' 
+
+ # Optional,omit or set both before and after to zero to disable. 
+ # Controls how the pagination trail for the paginated pages look like. 
+  trail: 
+    before: 2
+    after: 3
+
+  # Optional, the default file extension for generated pages (e.g html, json, xml).
+  # Internally this is set to html by default
+  extension: html
+
+  # Optional, the default name of the index file for generated pages (e.g. 'index.html')
+  # Without file extension
+  # indexpage: 'index'
+
+############################################################
+
+# Jekyll PWA Plugin: https://github.com/lavas-project/jekyll-pwa
+# pwa:
+#   enabled: false # Optional
+#   sw_src_filepath: service-worker.js # Optional
+#   sw_dest_filename: service-worker.js # Optional
+#   dest_js_directory: js # Required
+#   precache_recent_posts_num: 5 # Optional
+#   precache_glob_directory: / # Optional
+#   precache_glob_patterns: # Optional
+#     - "{js,css,fonts,img}/**/*.{js,css,eot,svg,ttf,woff,jpg,png,gif}"
+#     - index.html
+#     - search.json
+#     - "{pages,authors}/**"
+#   precache_glob_ignores: # Optional
+#     - sw-register.js
+#     - "fonts/**/*"

@@ -1,0 +1,31 @@
+---
+layout: compress
+---
+<!DOCTYPE html>
+<html lang="vi">
+  {% include head.html %}
+<body onload="documentReady()">
+	<!-- MENU (place before Navbar) -->
+  <nav class="w3-sidebar w3-black w3-animate-opacity w3-xxlarge z-index-999" style="display:none;padding-top:100px;top:0px;" id="menuElm">
+    <div class="w3-bar-block w3-center">
+      {% include menu.html %}
+    </div>
+  </nav>
+  <!-- Navbar (sit on top) -->
+  {% include navbar.html %}
+  
+  <!-- Page content -->
+  <div class="w3-content w3-panel w3-animate-opacity-slow" style="max-width:1100px">
+		<main>
+			{{ content }}
+    </main>
+
+    <!-- Footer -->
+    {% include footer.html %}
+
+  </div><!-- END: max-width:1100-->
+  <!-- End page content-->
+  <!-- Script -->
+  {% include script.html %}
+</body>
+</html>

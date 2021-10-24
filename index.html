@@ -1,0 +1,193 @@
+---
+layout: default
+pagination: 
+  enabled: true
+---
+<div class="w3-padding-48"></div>
+
+<!-- search -->
+<!-- <div id="search-container">
+	<label>
+		<span class="dh-unnecessary">Tìm kiếm</span>
+		<input type="text" id="search-input" placeholder="Search...">
+	</label>
+	<div id="results-container" class="w3-card"></div>
+</div>
+<div class="w3-padding-16"></div> -->
+
+<div class="w3-row">
+
+	<!-- Post & Paging -->
+	<div class="w3-col s8 w3-mobile" id="main-posts">
+
+		<div class="w3-margin-right">
+
+			{% assign postItems = paginator.posts | where: 'draft', false | where: 'sticky', true %}
+			{% for post in postItems %}
+				{% if post.draft != true %}
+					<div class="w3-section w3-card w3-hover-shadow">
+						{%if post.thumbnailImg %}
+						<div class="w3-display-container w3-text-white">
+							<img class="w3-image img-sepia" style="width:100%" src="{{ post.thumbnailImg }}" alt="{%if post.header %}{{ post.header }}{% else %}{{ post.title }}{% endif %}">
+							
+							<!-- <div class="w3-display-bottomleft layer-mark"></div> -->
+
+							<div class="w3-display-bottomleft bg-mark mobile-width-100">
+								
+								<div class="w3-padding">
+									
+									<a href="{% if site.baseurl == "/" %}{{ post.url }}{% else %}{{ post.url | prepend: site.baseurl }}{% endif %}"><h2 class="hoverLink"><span class="hvr-forward">{%if post.header %}{{ post.header }}{% else %}{{ post.title }}{% endif %}</span></h2></a>
+									<span class="opacity-transition-hover">
+										<span class="author">
+											{% assign author = site.authors | where: 'author_name', post.author_name | first %}
+											{% if author %}
+												<a href="{{ author.url }}" class="hvr-float-shadow">{{ author.author_name }}</a>
+											{% endif %}
+										</span>
+										<time datetime="{{ post.date | date_to_xmlschema }}" class="by-line"> · {{ post.date | date_to_string }}
+											<span> · {{ post.content | reading_time }} · </span>
+												<!-- class="hoverLink" -->
+											<span>
+											{% if post %}
+												{% assign categories = post.categories %}
+											{% else %}
+												{% assign categories = page.categories %}
+											{% endif %}
+											{% for category in categories %}
+											<a href="{{site.baseurl}}/pages/categories#{{category|slugize}}" class="hvr-float-shadow">{{category}}</a>
+											{% unless forloop.last %}&nbsp;{% endunless %}
+											{% endfor %}
+										</span>
+										</time>
+									</span>
+
+									<div class="w3-section w3-hide-small">
+										{{ post.content | strip_html | truncatewords:50 }}
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+						{% endif %}
+
+						<div class="w3-container">
+
+							{% unless post.thumbnailImg %}
+							<a href="{% if site.baseurl == "/" %}{{ post.url }}{% else %}{{ post.url | prepend: site.baseurl }}{% endif %}"><h2 class="hoverLink"><span class="hvr-forward">{%if post.header %}{{ post.header }}{% else %}{{ post.title }}{% endif %}</span></h2></a>
+							<span class="opacity-transition-hover">
+								<span class="author">
+									{% assign author = site.authors | where: 'author_name', post.author_name | first %}
+									{% if author %}
+										<a href="{{ author.url }}" class="hvr-float-shadow">{{ author.author_name }}</a>
+									{% endif %}
+								</span>
+								<time datetime="{{ post.date | date_to_xmlschema }}" class="by-line"> · {{ post.date | date_to_string }}
+									<span> · {{ post.content | reading_time }} · </span>
+										<!-- class="hoverLink" -->
+									<span>
+									{% if post %}
+										{% assign categories = post.categories %}
+									{% else %}
+										{% assign categories = page.categories %}
+									{% endif %}
+									{% for category in categories %}
+									<a href="{{site.baseurl}}/pages/categories#{{category|slugize}}" class="hvr-float-shadow">{{category}}</a>
+									{% unless forloop.last %}&nbsp;{% endunless %}
+									{% endfor %}
+								</span>
+								</time>
+							</span>
+
+							<div class="w3-section">
+								{{ post.content | strip_html | truncatewords:50 }}
+							</div>
+							{% endunless %}
+
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+	
+			<!-- Pagination V2 : opacity-transition-hover -->
+			<div class="w3-padding-16 w3-center">
+				<div class="w3-bar">
+				{% if paginator.page_trail %}
+					{% if paginator.previous_page == 1 %}
+						<a href="{{ '/' }}" class="w3-bar-item w3-button">&laquo;</a>
+					{% elsif paginator.previous_page%}
+						<a href="{{ paginator.previous_page_path }}" class="w3-bar-item w3-button">&laquo;</a>
+					{% else %}
+						<span class="w3-bar-item w3-button">&laquo;</span>
+					{% endif %}
+					
+					{% for trail in paginator.page_trail %}
+					<a href="{% if trail.num == 1 %}{{ '/' }}{% else %}{{ trail.path | prepend: site.baseurl }}{% endif %}" title="{{trail.title}}">
+						<span class="w3-bar-item w3-button{% if page.url == trail.path %} w3-black{% endif %}">
+							{{ trail.num }}
+						</span>
+					</a>
+					{% endfor %}
+				
+					{% if paginator.next_page %}
+						<a href="{{ paginator.next_page_path }}" class="w3-bar-item w3-button">&raquo;</a>
+					{% else %}
+						<span class="w3-bar-item w3-button">&raquo;</span>
+					{% endif %}
+				{% endif %}
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Portfolio -->
+	<div class="w3-col s4 w3-mobile">
+
+		{% assign hasPortfolio = false %}
+		{% assign datas = site.data.portfolio %}
+		{% if datas.size > 0 %}
+		{% for data in datas %}
+		{% assign items = data.items | where: 'promo', true %}
+			{% for portfolio in items %}
+			{% assign hasPortfolio = true %}
+			<div class="w3-card w3-section">
+				<div class="w3-container">
+					<h3 class="hvr-forward"><a href="{{ portfolio.link }}" target="_blank">{{ portfolio.title }}</a></h3>
+					<p>{{ portfolio.des }}</p>
+					{% if portfolio.stacks.size > 0 %}
+						<p>Stacks: 
+							{% for stack in portfolio.stacks %}
+							<img src="{{ stack.src }}" width="24px" title="{{ stack.title }}">
+							{% endfor %}
+						</p>
+					{% endif %}
+				</div>
+				<div class="w3-center">
+					<img class="myPortfolio cursor-zoom" src="{{ portfolio.thumb }}" style="width:100%" onclick="onZoomImg(this)">
+				</div>
+			</div>
+			{% endfor %}
+			{% endfor %}
+		{% endif %}
+		
+		{% unless hasPortfolio %}
+		<script>
+			document.getElementById("main-posts").classList.remove("s8");
+		</script>
+		{% endunless %}
+	</div>
+
+</div>
+
+<!-- <script src="/assets/js/search-custom.min.js" type="text/javascript"></script>
+<script>
+	(function() {
+		JSearch({
+			searchInput: document.getElementById('search-input'),
+			resultsContainer: document.getElementById('results-container'),
+			json: '/search/search.json'
+		})
+	})();
+</script> -->

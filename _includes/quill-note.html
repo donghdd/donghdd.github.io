@@ -1,0 +1,46 @@
+<!-- Include stylesheet -->
+<link rel="stylesheet" href="/assets/css/quill.1.3.6.snow.css" media="none" onload="if(media!='all')media='all'">
+<noscript><link rel="stylesheet" href="/assets/css/quill.1.3.6.snow.css"></noscript>
+
+<div id="quillNote" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-top" style="max-width:600px">
+
+        <header class="w3-container light-grey"> 
+         <span onclick="document.getElementById('quillNote').style.display='none'" 
+         class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
+         <h2>Your Memo</h2>
+        </header>
+
+        <div class="w3-container w3-section">
+            <div id="quillNoteEditor"></div>
+        </div>
+
+        <div class="w3-container w3-light-grey w3-padding">
+            <button class="w3-button w3-right w3-white w3-border" onclick="onNoteSave()">Save</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Include the Quill library -->
+<script src="/assets/js/quill.1.3.6.js" type="text/javascript" async></script>
+
+<!-- Initialize Quill editor -->
+<script type="text/javascript">
+    function openMemo() {
+        document.getElementById('audioSettings').style.display='none';
+        document.getElementById('quillNote').style.display = 'block';
+    }
+    
+    function onNoteSave() {
+        window.localStorage.setItem('donghd.com.my.note', window.quillEditor.getHTML());
+        document.getElementById('quillNote').style.display = 'none';
+    }
+
+    function loadMemo() {
+        const memo = window.localStorage.getItem('donghd.com.my.note');
+        if (memo) {
+            window.quillEditor.setHTML(memo);
+        }
+    }
+</script>

@@ -1,0 +1,20 @@
+<div class="w3-top z-index-9999 w3-white" id="navbar">
+    <div class="w3-bar w3-padding w3-card opacity-transition-hover w3-display-container" style="letter-spacing:4px;">
+        <div class="w3-display-left w3-padding">
+            <a href="/" class="w3-bar-item">Mr.Winter</a>
+        </div>
+        
+        <div class="w3-display-middle">
+            <!-- Search -->
+        </div>
+
+        <div class="w3-right" >
+            <!-- Audio settings -->
+            {% if page.audioSetting %}
+            <span class="material-icons w3-button" onclick="openAudioSettings()" title="Audio Settings">settings</span>
+            {% include audio_settings.html %}
+            {% endif%}
+            <span class="material-icons w3-button" id="menuIcon" onclick="toggleMenu()" title="Menu">menu</span>
+        </div>
+    </div>
+</div>

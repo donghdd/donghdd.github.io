@@ -1,0 +1,53 @@
+---
+layout: page
+titleLink: About
+title: About
+description: I have been programming professionally since the beginning of 2017.
+robots: NOINDEX, NOFOLLOW
+show: true
+---
+<style>
+    #div1, #div2, #btn-submit {
+      float: left;
+      width: 100px;
+      height: 38px;
+      margin: 10px;
+      border: 1px solid black;
+    }
+</style>
+<div class="w3-row" id="about-grid">
+    <div class="w3-col w3-container w3-mobile" style="width:35%">
+        <img src="/assets/img/dongho.jpg" class="w3-round w3-circle" style="width: 100%;" alt="Đông Hồ">
+    </div>
+    <div class="w3-col w3-mobile" style="width:65%">
+        <div class="w3-section opacity-transition-hover">
+            <h2>About</h2>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum, non laboriosam eos consequatur omnis nam voluptates maiores odio saepe libero laborum quibusdam fuga quasi? Earum eum quae sequi iure reiciendis!</p>
+        </div>
+        <div class="w3-section opacity-transition-hover">
+            <h2>Contact</h2>
+            <p>Email: donghd84[@]gmail.com</p>
+        </div>
+    </div>
+</div>
+<script>
+    function onSubmitForm(f) {
+        f.submit();
+        f.reset();
+        document.getElementById('btn-submit').disabled = true;
+    }
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+        document.getElementById('btn-submit').disabled = false;
+    }
+</script>

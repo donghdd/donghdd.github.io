@@ -1,0 +1,21 @@
+<script src="/assets/js/custom.js" type="text/javascript" async></script>
+<script src="/assets/js/qmodal.js" type="text/javascript" async></script>
+{% if page.mermaid %}
+<style>
+@media only screen and (max-width: 768px) {
+  .mermaid {
+    overflow: scroll;
+  }
+  .mermaid::-webkit-scrollbar {
+    width: 0px;
+  }
+}
+</style>
+<script type="text/javascript" src="/assets/js/mermaid.8.5.0.min.js" async></script>
+{% endif %}
+
+{% if page.highlight %}
+<link href="/assets/css/tango-highlight.css" rel="stylesheet" media="all">
+{% endif %}
+
+<!-- <script src="sw-register.js" async></script> -->

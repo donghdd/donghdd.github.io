@@ -1,0 +1,111 @@
+*) Getting start
+---
+1. RubyInstaller: Ruby+Devkit
+2. Remove Gemfile.lock and run "bundle install"
+3. Check local site "jekyll serve" hoặc "bundle exec jekyll serve"
+
+*) Workflow
+---
+1. Working on [develop] branch
+2. check local site
+3. run build-and-deploy.sh
+
+*) Tạo một Serial
+---
+1. Thêm Serial vào _config.yml (Collections)
+2. Tạo thư mục chứa các file của Serial (VD: _english)
+3. Trong thư mục Serial tạo file index (VD: _english/index.md) với thuộc tính "noindex, follow" và "draft: true" (bắt buộc phải có file index này)
+4. Tạo file json cho tìm kiếm (VD: _english/search.json) và nhớ sửa đường dẫn file json ở file index
+P/s: Nên copy file mẫu ("_english/index.md" và "_english/search.json") sang Serial mới!
+----
+*) Move một bài viết từ Collection sang Post: đổi layout và đặt lại tên "category"
+
+*) Viết một bài viết
+---
+1. Copy từ mẫu "2017-06-13-template.md"
+2. Bắt buộc phải sửa: draft, title, description, header ...
+3. Tham khảo "CHEAT SHEET" ở dưới cùng.
+4. Viết outline trước tiên
+
+*) Chèn ảnh SVG
+1. Vẽ bằng Draw.io => Export As => Advance => zoom 125%, format SVG
+2. Lưu cả dạng .svg và .drawio cùng tên vào cùng thư mục
+3. SẮP XẾP trong thư mục "img/svg/dd-mm-yyyy/<file_name>"
+
+*) Helper
+- dhtemplate
+- dhreference
+- dhw3reference
+- dhcomment
+- dhimg
+- dhlink
+- dhtaglink
+- dhtagimage
+- dhtable
+- dhmsg
+- dhtagmsg
+- dhhover
+
+*) Investigate/Study
+why using ___
+when using ___
+___ key features / use cases / solutions
+___ history
+___ vs / or ...
+
+challenges with ___
+challenges faced when using ___
+problems faced while using ___
+best practices for using ___
+
+___ overview / architecture / fundamentals / concepts
+___ getting started / manual / docs / reference / guides / tutorial
+
+explain ___ ...
+___ structure ...
+[WHERE]* ___ ...
+___ [SPECIFY]* ...
+
+___ developer workflow
+___ cheat sheet
+___ cookbook
+___ playground
+___ how to ...
+
+___ awesome ...
+how ___ work
+___ from scratch
+
+___ roadmap
+___ in action
+___ interview questions
+
+___ release / version information
+___ github / stackoverflow / community
+
+___ Study Guides
+___ Terms to Know
+___ Technology Definition
+
+*) Tham khảo Liquid
+- https://shopify.github.io/liquid/basics/introduction/
+
+*) Xử lý Audio với Audacity và SOX
+- https://www.audacityteam.org/download/
+- http://sox.sourceforge.net/
+
+*) Other
+- https://www.businessenglishpod.com/vi/category/meetings/
+- http://vi.talkenglish.com/lessonindex.aspx
+- https://basicenglishspeaking.com/common-expressions-english/
+- https://basicenglishspeaking.com/100-common-phrases-and-sentence-patterns/
+- https://github.com/goldfire/howler.js
+- https://www.webopedia.com/TERM
+- https://www.indeed.com/career-advice/career-development
+
+*) TODO
+- https://7esl.com/adjective-noun-combinations/
+- https://www.pinterest.com/7english/
+- Connector list: https://www.pinterest.com/pin/396527942192049405/
+- Prepositional Phrases: https://www.pinterest.com/pin/626774473122892669/
+- Business Phrasal Verbs: https://7esl.com/business-phrasal-verbs/

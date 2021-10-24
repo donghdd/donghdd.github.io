@@ -1,0 +1,55 @@
+<!-- TOC MENU -->
+{% if page.toc %}
+<div id="tocMenu" class="tocMenu" onclick="toggleTOC()">
+  <div class="progress-bar" id="progressBar"></div>
+  <div title="Table Of Content" class="w3-btn w3-border w3-border-blue w3-white">
+    Outline
+  </div>
+</div>
+{% endif%}
+
+<!-- Audio Control -->
+<div id="audioControlGroup" class="w3-animate-opacity">
+  <p>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="audioControlMinus()" title="Minus">history</span>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="resetCurrentAudio()" title="Reset">cached</span>
+  </p>
+  <p>
+      <span class="material-icons w3-button w3-border w3-border-blue" id="audioControlEl" onclick="audioControlPlayOrPause()" title="Play/Pause">play_arrow</span>
+      <span class="material-icons w3-button w3-border w3-border-blue" onclick="onClickGotoCurrentAudio()" title="Go to Current Audio">arrow_right_alt</span>
+  </p>
+  <p>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="audioControlPlus()" title="Plus">update</span>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="skipCurrentAudioAndNext()" title="Next">skip_next</span>
+  </p>
+  <p>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="openMemo()" title="Your Note">create</span>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="onClickShowAudioControl()" title="Hide Audio Control">close</span>
+  </p>
+  <p>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="openAudioSettings()" title="Audio Settings">settings</span>
+    <span class="material-icons w3-button w3-border w3-border-blue" onclick="gotoBottom()" title="Go to bottom">arrow_downward</span>
+  </p>
+</div>
+
+<!-- memo -->
+{% include quill-note.html %}
+
+<!-- GO TO TOP -->
+<button onclick="topFunction()" title="Go to Top" id="scrollTopBtn" class="w3-btn w3-border w3-border-blue w3-white">Top</button>
+
+<div id="zoomModal" class="w3-modal w3-center w3-animate-opacity" onclick="this.style.display='none'">
+	<img class="w3-modal-content w3-mobile w3-animate-zoom" style="width: 100%;" id="imgModal">
+</div>
+
+<script type="text/javascript">
+function openAudioControl() {
+  {% if page.audioSetting %}
+  onClickShowAudioControl();
+  {% endif%}
+}
+</script>
+
+<footer class="w3-center w3-padding-16 dh-clear">
+  <!-- <span>@2017 - D o n g H D . c o m</span> -->
+</footer>

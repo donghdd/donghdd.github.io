@@ -1,0 +1,46 @@
+---
+layout: page
+titleLink: Collections
+title: Collections
+robots: NOINDEX, FOLLOW
+show: true
+permalink: /collections
+---
+<!-- search -->
+<div id="search-container">
+  <label>
+		<span class="dh-unnecessary">Tìm kiếm</span>
+    <input type="text" id="search-input" placeholder="Search...">
+  </label>
+  <div id="results-container" class="w3-card"></div>
+</div>
+
+<!-- Collections -->
+{% assign serials = site.collections | where: 'isSerial', true | where: 'show', true %}
+{% if serials.size > 0 %}
+<div class="w3-padding-16"></div>
+<h2>Collections</h2>
+<ul class="w3-ul w3-card">
+  {% for serial in serials %}
+  <li class="w3-bar">
+    {% if serial.thumbnail %}<img src="{{ serial.thumbnail }}" class="w3-bar-item w3-hide-small" style="width:150px">{% endif %}
+    <div class="w3-bar-item">
+      <!-- hard code URL to serials! -->
+      <a href="/collections/{{ serial.label }}"><h5><span class="hvr-forward">{{ serial.title }}</span></h5></a>
+      {% if serial.description %}<div class="opacity-transition-hover">{{ serial.description }}</div>{% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<script src="/assets/js/search-custom.min.js" type="text/javascript"></script>
+<script>
+	(function() {
+    JSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+			json: '/search/search-collections.json'
+    })
+	})();
+</script>

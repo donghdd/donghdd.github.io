@@ -1,0 +1,16 @@
+<!-- canonical -->
+{% if paginator.page == 1 %}
+<link rel="canonical" href="{{'/' | relative_url }}" />
+{% elsif paginator %}<!-- for post and page... -->
+<link rel="canonical" href="{{ paginator.page_path }}" />
+{% endif %}
+
+<!-- prev -->
+{% if paginator.previous_page_path %}
+<link rel="prev" href="{{ paginator.previous_page_path }}" />
+{% endif %}
+
+<!-- next -->
+{% if paginator.next_page_path %}
+<link rel="next" href="{{ paginator.next_page_path }}" />
+{% endif %}

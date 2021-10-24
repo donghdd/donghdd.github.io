@@ -1,0 +1,20 @@
+---
+layout: page
+title: Teams
+description: Authors
+robots: NOINDEX, NOFOLLOW
+show: false
+# info
+titleLink: Teams
+---
+<ul class="w3-ul">
+  {% for author in site.authors %}
+    <li class="w3-bar">
+      <img src="{% if author.avatar %}{{ author.avatar }}{% else %}/assets/img/avatar/jane.png{% endif %}" class="w3-bar-item w3-circle w3-hide-small" style="width:150px">
+      <div class="w3-bar-item">
+        <a href="{{ author.url }}"><h2><span class="hvr-forward">{{ author.author_name }}</span></h2></a>
+        {% if author.position %}<h5>{{ author.position }}</h5>{% endif %}
+      </div>
+    </li>
+  {% endfor %}
+</ul>
