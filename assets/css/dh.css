@@ -1,0 +1,19 @@
+.dh-padding-right-1em {
+    padding-right: 1em;
+    margin-top: 0px;
+}
+.dh-black-8 {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+.dh-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+.dh-clear {
+    clear:both;
+}
+.dh-unnecessary {
+    display: none;
+}
