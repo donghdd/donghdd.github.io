@@ -1,0 +1,7 @@
+_site/
+____site
+temp/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.sonarlint
