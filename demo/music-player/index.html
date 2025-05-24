@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player with Hand Gestures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        glass: 'rgba(0, 0, 0, 0.4)',
+                        'glass-dark': 'rgba(0, 0, 0, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Webcam Permission Modal -->
+    <div id="webcamModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="glass p-8 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Webcam Access Required</h2>
+            <p class="mb-4">This application requires webcam access to detect hand gestures for controlling the music player.</p>
+            <button id="enableWebcamBtn" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Enable Webcam</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative w-full h-screen">
+        <!-- Canvas for Webcam and Hand Landmarks -->
+        <canvas id="output_canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+        <video id="webcam" class="absolute top-0 left-0 w-full h-full object-cover" autoplay playsinline></video>
+
+        <!-- Music Player -->
+        <div id="musicPlayer" class="absolute bottom-4 left-4 glass p-4 rounded-lg w-80 transition-all duration-300">
+            <div id="player"></div>
+        </div>
+
+        <!-- Playlist Button -->
+        <button id="playlistBtn" class="absolute top-4 right-4 glass p-2 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
+        <!-- Playlist Modal -->
+        <div id="playlistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+            <div class="glass p-6 rounded-lg w-96 max-h-[80vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Playlist</h2>
+                    <div class="flex space-x-2">
+                        <button id="addVideoBtn" class="glass p-2 rounded-full">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </button>
+                        <button id="closePlaylistBtn" class="glass p-2 rounded-full">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="playlist" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <!-- Add Video Modal -->
+        <div id="addVideoModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+            <div class="glass p-6 rounded-lg w-96">
+                <h2 class="text-xl font-bold mb-4">Add Video</h2>
+                <input type="text" id="videoUrl" placeholder="Enter YouTube URL" class="w-full p-2 rounded bg-gray-800 mb-4">
+                <div class="flex justify-end space-x-2">
+                    <button id="cancelAddBtn" class="px-4 py-2 rounded glass">Cancel</button>
+                    <button id="confirmAddBtn" class="px-4 py-2 rounded bg-blue-500">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gesture Output -->
+        <div id="gesture_output" class="absolute top-4 left-4 glass p-2 rounded-lg hidden"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Load YouTube API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Initialize YouTube Player
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('YouTube Player is ready');
+            window.dispatchEvent(new CustomEvent('youtubePlayerReady'));
+        }
+
+        function onPlayerStateChange(event) {
+            console.log('Player state changed:', event.data);
+        }
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+</html> 
