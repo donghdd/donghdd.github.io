@@ -734,6 +734,13 @@ window.addEventListener('youtubePlayerReady', () => {
         if (event.data === YT.PlayerState.PLAYING) {
             const currentVideo = playlist[currentVideoIndex];
             updateMarqueeText(currentVideo.title, true);
+        } else if (event.data === YT.PlayerState.ENDED) {
+            // Auto play next video when current video ends
+            if (playlist.length > 0) {
+                currentVideoIndex = (currentVideoIndex + 1) % playlist.length;
+                loadVideo(currentVideoIndex);
+                window.player.playVideo();
+            }
         } else {
             updateMarqueeText('', false);
         }
